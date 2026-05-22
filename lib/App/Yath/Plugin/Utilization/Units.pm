@@ -162,11 +162,11 @@ __END__
 
 =head1 NAME
 
-Test2::Harness::Util::Units - Parse number-with-unit strings used by yath options.
+App::Yath::Plugin::Utilization::Units - Parse number-with-unit strings used by yath options.
 
 =head1 SYNOPSIS
 
-    use Test2::Harness::Util::Units qw/parse_quantity parse_byte_size parse_duration parse_count_or_pct parse_size_or_pct/;
+    use App::Yath::Plugin::Utilization::Units qw/parse_quantity parse_byte_size parse_duration parse_count_or_pct parse_size_or_pct/;
 
     my ($n, $u) = parse_quantity('512mb', units => [qw/kb mb gb tb/]);
     my $bytes = parse_byte_size('1gb');         # 1073741824

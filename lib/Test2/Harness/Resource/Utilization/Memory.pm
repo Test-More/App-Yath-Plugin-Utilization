@@ -6,7 +6,7 @@ our $VERSION = '1.000173';
 
 use Carp qw/croak/;
 
-use Test2::Harness::Util qw/read_file/;
+use Test2::Harness::Resource::Utilization::Util qw/read_file_lines/;
 use App::Yath::Plugin::Utilization::Units qw/parse_size_or_pct/;
 
 use parent 'Test2::Harness::Runner::Resource';
@@ -53,14 +53,14 @@ sub init {
     $self->{+IN_FLIGHT}      //= 0;
 }
 
-sub _read_meminfo { read_file('/proc/meminfo') }
+sub _read_meminfo { [read_file_lines('/proc/meminfo')] }
 
 sub _sample {
     my $self = shift;
-    my $body = $self->_read_meminfo;
+    my $lines = $self->_read_meminfo;
 
     my %vals;
-    for my $line (split /\n/, $body) {
+    for my $line (@$lines) {
         if ($line =~ m/^(\w+):\s*([0-9]+)\s*kB\s*\z/) {
             $vals{$1} = $2 * 1024;
         }

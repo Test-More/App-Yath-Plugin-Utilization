@@ -6,7 +6,7 @@ our $VERSION = '1.000173';
 
 use Carp qw/croak/;
 
-use Test2::Harness::Util qw/read_file_lines/;
+use Test2::Harness::Resource::Utilization::Util qw/read_file_lines/;
 use App::Yath::Plugin::Utilization::Units qw/parse_count_or_pct parse_size_or_pct/;
 
 use parent 'Test2::Harness::Runner::Resource';

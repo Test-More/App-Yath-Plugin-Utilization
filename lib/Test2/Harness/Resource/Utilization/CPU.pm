@@ -7,7 +7,7 @@ our $VERSION = '1.000173';
 use Carp qw/croak/;
 use Time::HiRes qw/time/;
 
-use Test2::Harness::Util qw/read_file_lines/;
+use Test2::Harness::Resource::Utilization::Util qw/read_file_lines/;
 
 use parent 'Test2::Harness::Runner::Resource';
 use Test2::Harness::Util::HashBase qw/<settings <utilize_percent <min_concurrent <ema_alpha <min_dt +prev_stat +last_busy_pct +have_sample +in_flight +assigned/;

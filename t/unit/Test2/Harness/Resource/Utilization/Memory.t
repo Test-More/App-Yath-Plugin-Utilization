@@ -37,12 +37,12 @@ subtest available => sub {
 
     no warnings 'redefine';
     local *Test2::Harness::Resource::Utilization::Memory::_read_meminfo = sub {
-        "MemTotal:        1000 kB\nMemAvailable:     200 kB\n";
+        ['MemTotal:        1000 kB', 'MemAvailable:     200 kB'];
     };
     is($r->available({}), 1, '200 > 100 (10% of 1000) => allow');
 
     local *Test2::Harness::Resource::Utilization::Memory::_read_meminfo = sub {
-        "MemTotal:        1000 kB\nMemAvailable:      50 kB\n";
+        ['MemTotal:        1000 kB', 'MemAvailable:      50 kB'];
     };
     is($r->available({}), 0, '50 < 100 => defer');
 };

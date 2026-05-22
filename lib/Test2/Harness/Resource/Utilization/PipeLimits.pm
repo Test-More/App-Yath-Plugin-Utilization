@@ -6,7 +6,7 @@ our $VERSION = '1.000173';
 
 use Carp qw/croak/;
 
-use Test2::Harness::Util qw/maybe_read_file/;
+use Test2::Harness::Resource::Utilization::Util qw/maybe_read_file_lines/;
 use App::Yath::Plugin::Utilization::Units qw/parse_count_or_pct/;
 
 use parent 'Test2::Harness::Runner::Resource';
@@ -84,14 +84,14 @@ sub init {
 }
 
 sub _read_cap_pages {
-    my $body = maybe_read_file('/proc/sys/fs/pipe-user-pages-soft');
-    return DEFAULT_USER_PIPE_PAGES_SOFT unless defined $body && $body =~ m/^([0-9]+)/;
+    my $line = scalar maybe_read_file_lines('/proc/sys/fs/pipe-user-pages-soft');
+    return DEFAULT_USER_PIPE_PAGES_SOFT unless defined $line && $line =~ m/^([0-9]+)/;
     return $1 + 0;
 }
 
 sub _read_pages_per_pipe {
-    my $body = maybe_read_file('/proc/sys/fs/pipe-max-size');
-    return DEFAULT_PAGES_PER_PIPE unless defined $body && $body =~ m/^([0-9]+)/;
+    my $line = scalar maybe_read_file_lines('/proc/sys/fs/pipe-max-size');
+    return DEFAULT_PAGES_PER_PIPE unless defined $line && $line =~ m/^([0-9]+)/;
     my $pages = int(($1 + 0) / PAGE_SIZE_BYTES);
     return $pages > 0 ? $pages : DEFAULT_PAGES_PER_PIPE;
 }

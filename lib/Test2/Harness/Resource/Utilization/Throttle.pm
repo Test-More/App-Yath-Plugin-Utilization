@@ -8,7 +8,7 @@ use Carp qw/croak/;
 use POSIX qw/floor/;
 use Time::HiRes qw/time/;
 
-use Test2::Harness::Util qw/read_file maybe_read_file/;
+use Test2::Harness::Resource::Utilization::Util qw/read_file_lines maybe_read_file_lines/;
 use App::Yath::Plugin::Utilization::Units qw/parse_duration parse_byte_size/;
 
 use parent 'Test2::Harness::Runner::Resource';
@@ -82,11 +82,8 @@ sub _detect_core_count {
         return $n if $ok && $n && $n > 0;
     }
 
-    my $body = maybe_read_file('/proc/cpuinfo');
-    if (defined $body) {
-        my $count = () = $body =~ /^processor\s*:/mg;
-        return $count if $count > 0;
-    }
+    my $count = grep { /^processor\s*:/ } maybe_read_file_lines('/proc/cpuinfo');
+    return $count if $count > 0;
 
     return 1;
 }
@@ -94,8 +91,9 @@ sub _detect_core_count {
 sub _read_meminfo_available {
     return $READ_MEMINFO_AVAIL->() if defined $READ_MEMINFO_AVAIL;
 
-    my $body = read_file('/proc/meminfo');
-    return $1 * 1024 if $body =~ /^MemAvailable:\s+(\d+)\s+kB/m;
+    for my $line (read_file_lines('/proc/meminfo')) {
+        return $1 * 1024 if $line =~ /^MemAvailable:\s+(\d+)\s+kB/;
+    }
     croak "Resource::Throttle: MemAvailable not found in /proc/meminfo";
 }
 
