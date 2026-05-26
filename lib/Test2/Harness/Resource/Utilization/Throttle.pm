@@ -2,7 +2,7 @@ package Test2::Harness::Resource::Utilization::Throttle;
 use strict;
 use warnings;
 
-our $VERSION = '1.000173';
+our $VERSION = '0.000002';
 
 use Carp qw/croak/;
 use POSIX qw/floor/;

@@ -2,7 +2,7 @@ package Test2::Harness::Resource::Utilization::Memory;
 use strict;
 use warnings;
 
-our $VERSION = '1.000173';
+our $VERSION = '0.000002';
 
 use Carp qw/croak/;
 
